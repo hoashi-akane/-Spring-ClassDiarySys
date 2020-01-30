@@ -27,6 +27,7 @@ public class LoginController {
 
     @GetMapping("Login")
     public String index(Model model,LoginForm loginForm,@ModelAttribute("ErrorMsg") String errorMsg){
+
         model.addAttribute("loginForm",loginForm);
         model.addAttribute("errorMsg",errorMsg);
         return "login";
@@ -51,6 +52,6 @@ public class LoginController {
             }
         }
         return path;
-    },..............
+    }
 
 }

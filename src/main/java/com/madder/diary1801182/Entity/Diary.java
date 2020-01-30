@@ -30,5 +30,19 @@ public class Diary implements Serializable {
     @Column(name = "teacher_comment", nullable = false)
     private String teacherComment;
 
-    
+    public String getClassCode(){
+        return diaryId.getClassCode();
+    }
+
+    public Date getInsertDate(){
+        return diaryId.getInsertDate();
+    }
+
+    public String setClassCode(){
+        return diaryId.getClassCode();
+    }
+
+    public Date setInsertDate(){
+        return diaryId.getInsertDate();
+    }
 }

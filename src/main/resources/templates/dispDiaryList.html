@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>メニュー</title>
+</head>
+<body>
+<div class="container">
+    <div class="row mt-5">
+        <h2 class="col-md-10 mb-4 text text-secondary">日誌一覧</h2>
+        <div class="col-md-8 offset-md-2">
+            <div id="accordion">
+                <div th:each="diary : ${diaryList }, stat : index">
+
+                    <div class="card">
+                        <div class="card-header" id="heading+${stat}">
+                            <h5>
+                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapse+${stat}" aria-expanded="false" aria-controls="collapse+${stat}">
+                                    作成日：<div th:text="${diary.insertDate}"/>  　　作成者：<div th:text="${diary.userName }"/>
+                                </button>
+                            </h5>
+                        </div>
+
+                        <div id="collapse+${stat} %>" class="collapse" aria-labelledby="heading+${stat}" data-parent="#accordion">
+                            <div class="card-body py-0">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">良かった点</th><th scope="col">悪かった点</th><th scope="col">学生コメント</th><th scope="col">担任コメント</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td><div th:text="${diary.GoodPoint()}"/></td><td><div th:text="${diary.getBadPoint()}"/></td><td><div th:text= "${diary.getStdCom()}" /></td><td><div th:text="${diary.getTcrCom()}"/></td>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </th:each>
+            </div>
+            <a href="MenuServlet" class="col-md-12  btn btn-lg btn-neutral border border-danger text-center float-left">戻る</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
