@@ -5,6 +5,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
 @Table(name = "diary")
 @Entity
@@ -12,10 +13,18 @@ import java.sql.Date;
 public class Diary implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @EmbeddedId
-    private DiaryId diaryId;
 
-    @Column(name = "student_id", nullable = false)
+    @Id
+    @Column(name = "diary_code", insertable = false, nullable = false)
+    private Integer diaryCode;
+
+    @Column(name = "class_code", nullable = false)
+    private String classCode;
+
+    @Column(name = "insert_date", nullable = false)
+    private Date insertDate;
+
+    @Column(name = "student_id", nullable =false)
     private String studentId;
 
     @Column(name = "good_point")
@@ -30,19 +39,9 @@ public class Diary implements Serializable {
     @Column(name = "teacher_comment", nullable = false)
     private String teacherComment;
 
-    public String getClassCode(){
-        return diaryId.getClassCode();
-    }
-
-    public Date getInsertDate(){
-        return diaryId.getInsertDate();
-    }
-
-    public String setClassCode(){
-        return diaryId.getClassCode();
-    }
-
-    public Date setInsertDate(){
-        return diaryId.getInsertDate();
-    }
+//    @OneToMany(mappedBy = "classes")
+//    List<Class> classes;
+//
+//    @OneToMany(mappedBy ="students")
+//    List<Student> students;
 }

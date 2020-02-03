@@ -2,10 +2,7 @@ package com.madder.diary1801182.Entity;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Data
@@ -30,5 +27,8 @@ public class Class implements Serializable {
     @Column(name = "teacher_code", nullable = false)
     private String teacherCode;
 
+
+    @ManyToOne
+    Class classes;
     
 }
