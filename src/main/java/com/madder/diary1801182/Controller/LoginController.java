@@ -27,14 +27,13 @@ public class LoginController {
 
     @GetMapping("Login")
     public String index(Model model,LoginForm loginForm,@ModelAttribute("ErrorMsg") String errorMsg){
-
         model.addAttribute("loginForm",loginForm);
         model.addAttribute("errorMsg",errorMsg);
         return "login";
     }
 
     @PostMapping("Auth")
-    public String Auth(@Validated @ModelAttribute LoginForm loginForm, BindingResult result, RedirectAttributes redirectAttributes,LoginInfoDto loginInfoDto){
+    public String auth(@Validated @ModelAttribute LoginForm loginForm, BindingResult result, RedirectAttributes redirectAttributes,LoginInfoDto loginInfoDto){
 
         String path="";
         if(result.hasErrors()){

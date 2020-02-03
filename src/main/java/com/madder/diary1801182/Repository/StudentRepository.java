@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface StudentRepository extends JpaRepository<Student, String>, JpaSpecificationExecutor<Student> {
 
-    @Query("SELECT CASE WHEN count(Student) > 0 THEN true ELSE false END FROM Student Where studentId = :studentId AND studentPassword = :studentPassword")
+    @Query("SELECT CASE WHEN count(studentId) > 0 THEN true ELSE false END FROM Student WHERE studentId = :studentId AND studentPassword = :studentPassword")
     boolean accountExists(@Param("studentId") String studentId, @Param("studentPassword") String studentPassword);
 
     @Query("FROM Student WHERE studentId = :studentId AND studentPassword = :studentPassword")

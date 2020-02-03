@@ -4,9 +4,12 @@ import com.madder.diary1801182.Dto.DiaryDto;
 import com.madder.diary1801182.Entity.Diary;
 import com.madder.diary1801182.Repository.DiaryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
+@Service
 public class DiaryService {
 
     @Autowired
@@ -24,7 +27,7 @@ public class DiaryService {
             for(Diary diary : diaryList){
                 DiaryDto diaryDto = new DiaryDto();
 
-                diaryDto.setClassCode(diary.getClassCode());
+//                diaryDto.setClassCode(diary.ge);
                 diaryDto.setStudentId(diary.getStudentId());
                 diaryDto.setInsertDate(diary.getInsertDate());
                 diaryDto.setGoodPoint(diary.getGoodPoint());
