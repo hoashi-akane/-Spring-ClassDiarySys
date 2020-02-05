@@ -10,19 +10,19 @@
     <div class="row mt-5">
         <h2 class="col-md-10 mb-4 text text-secondary">日誌一覧</h2>
         <div class="col-md-8 offset-md-2">
+            <div class="text-primary" th:text="${msg}"></div>
             <div id="accordion">
-                <div th:each="diary : ${diaryList }, stat : index">
-
+                <th:block th:each="diary, index :${diaryList}">
                     <div class="card">
-                        <div class="card-header" id="heading+${stat}">
+                        <div class="card-header" th:id="'heading'+${stat}">
                             <h5>
-                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapse+${stat}" aria-expanded="false" aria-controls="collapse+${stat}">
-                                    作成日：<div th:text="${diary.insertDate}"/>  　　作成者：<div th:text="${diary.userName }"/>
+                                <button class="btn btn-link" data-toggle="collapse" th:data-target="'#collapse'+${stat}" aria-expanded="false" th:aria-controls="'collapse'+${stat}">
+                                    作成日：<div th:text="${#dates.format(diary.insertDate, 'yyyy年MM月dd日')}"/>  　　作成者：<div th:text="${diary.studentId }"/>
                                 </button>
                             </h5>
                         </div>
 
-                        <div id="collapse+${stat} %>" class="collapse" aria-labelledby="heading+${stat}" data-parent="#accordion">
+                        <div th:id="'collapse'+${stat}" class="collapse" th:aria-labelledby="'heading'+${stat}" data-parent="#accordion">
                             <div class="card-body py-0">
                                 <table class="table">
                                     <thead>
@@ -32,15 +32,14 @@
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        <td><div th:text="${diary.GoodPoint()}"/></td><td><div th:text="${diary.getBadPoint()}"/></td><td><div th:text= "${diary.getStdCom()}" /></td><td><div th:text="${diary.getTcrCom()}"/></td>
+                                        <td><div th:text="${diary.goodPoint}"/></td><td><div th:text="${diary.badPoint}"/></td><td><div th:text= "${diary.stdCom}" /></td><td><div th:text="${diary.tcrCom}"/></td>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-                </th:each>
-            </div>
-            <a href="MenuServlet" class="col-md-12  btn btn-lg btn-neutral border border-danger text-center float-left">戻る</a>
+            </th:block>
+            <a href="Menu" class="col-md-12  btn btn-lg btn-neutral border border-danger text-center float-left">戻る</a>
         </div>
     </div>
 </div>

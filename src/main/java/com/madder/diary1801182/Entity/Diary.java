@@ -39,9 +39,9 @@ public class Diary implements Serializable {
     @Column(name = "teacher_comment", nullable = false)
     private String teacherComment;
 
-//    @OneToMany(mappedBy = "classes")
-//    List<Class> classes;
-//
-//    @OneToMany(mappedBy ="students")
-//    List<Student> students;
+    @OneToMany(mappedBy = "classes")
+    List<Class> classes;
+
+    @OneToMany(mappedBy ="students")
+    List<Student> students;
 }

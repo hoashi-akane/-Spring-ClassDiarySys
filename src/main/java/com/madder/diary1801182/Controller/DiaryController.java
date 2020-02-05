@@ -18,23 +18,35 @@ public class DiaryController {
     @Autowired
     DiaryService diaryService;
 
-    @Autowired
-    HttpSession session;
 
     /*
     日誌一覧表示
      */
     @GetMapping("DispDiaryList")
-    public String dispDiaryList(Model model){
+    public ModelAndView dispDiaryList(ModelAndView mav,HttpSession session){
 
-        LoginInfoDto loginInfo = (LoginInfoDto)session.getAttribute("LoginInfo");
+        LoginInfoDto loginInfoDto = (LoginInfoDto)session.getAttribute("loginInfoDto");
 
-        List<DiaryDto> diaryDtoList = diaryService.getDiaryList(loginInfo.getClassCode());
+        List<DiaryDto> diaryDtoList = diaryService.getDiaryList(loginInfoDto.getClassCode());
 
         if(diaryDtoList != null){
-            model.addAttribute("diaryList","diaryDtoList");
+            mav.addObject("diaryList",diaryDtoList);
+        }else{
+            String msg ="登録されている日誌はありません。";
+            mav.addObject("msg",msg);
         }
-        return "dispDiaryList";
+
+        mav.setViewName("dispDiaryList");
+        return mav;
+    }
+
+    /*
+    日誌作成用入力view表示
+     */
+    @GetMapping("CreateDiary")
+    public Sting inputDiary(DiaryForm diaryForm){
+
+        return "input"
     }
 
 }

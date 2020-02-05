@@ -22,8 +22,6 @@ public class LoginController {
     @Autowired
     LoginService loginService;
 
-    @Autowired
-    HttpSession session;
 
     @GetMapping("Login")
     public String index(Model model,LoginForm loginForm,@ModelAttribute("ErrorMsg") String errorMsg){
@@ -33,7 +31,7 @@ public class LoginController {
     }
 
     @PostMapping("Auth")
-    public String auth(@Validated @ModelAttribute LoginForm loginForm, BindingResult result, RedirectAttributes redirectAttributes,LoginInfoDto loginInfoDto){
+    public String auth(@Validated @ModelAttribute LoginForm loginForm, BindingResult result, RedirectAttributes redirectAttributes,LoginInfoDto loginInfoDto,HttpSession session){
 
         String path="";
         if(result.hasErrors()){

@@ -6,6 +6,7 @@ import com.madder.diary1801182.Repository.DiaryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -24,10 +25,12 @@ public class DiaryService {
         // Entity -> Dto
         if(diaryList != null){
 
+            diaryDtoList = new ArrayList<DiaryDto>();
+
             for(Diary diary : diaryList){
                 DiaryDto diaryDto = new DiaryDto();
 
-//                diaryDto.setClassCode(diary.ge);
+                diaryDto.setClassCode(diary.getClassCode());
                 diaryDto.setStudentId(diary.getStudentId());
                 diaryDto.setInsertDate(diary.getInsertDate());
                 diaryDto.setGoodPoint(diary.getGoodPoint());
