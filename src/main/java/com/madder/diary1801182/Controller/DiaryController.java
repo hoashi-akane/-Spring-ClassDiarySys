@@ -2,21 +2,30 @@ package com.madder.diary1801182.Controller;
 
 import com.madder.diary1801182.Dto.DiaryDto;
 import com.madder.diary1801182.Dto.LoginInfoDto;
+import com.madder.diary1801182.Form.DiaryForm;
 import com.madder.diary1801182.Service.DiaryService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.List;
 
+@RequiredArgsConstructor
 @Controller
 public class DiaryController {
 
-    @Autowired
-    DiaryService diaryService;
+    private final DiaryService diaryService;
 
 
     /*
@@ -43,10 +52,56 @@ public class DiaryController {
     /*
     日誌作成用入力view表示
      */
-    @GetMapping("CreateDiary")
-    public Sting inputDiary(DiaryForm diaryForm){
+    @GetMapping("InputDiaryControl")
+    public String inputDiary(DiaryForm diaryForm, HttpSession session){
 
-        return "input"
+        LoginInfoDto loginInfoDto = (LoginInfoDto)session.getAttribute("loginInfoDto");
+        String path = "";
+
+        //日誌がなければtrue
+        if(diaryService.checkDiary(loginInfoDto.getClassCode())){
+            path = "redirect:/InputTodayDiary";
+        }else{
+            path = "redirect:/InputOldDiary";
+        }
+
+        return path;
     }
 
+    /*
+    * 日付が本日の日誌を登録させる
+    * */
+    @GetMapping("InputTodayDiary")
+    public ModelAndView inputTodayDiary(ModelAndView mav, DiaryForm diaryForm){
+
+        Date date = new Date();
+        mav.addObject("date",date);
+        mav.addObject("diaryForm", diaryForm);
+        mav.setViewName("inputTodayDiary");
+
+        return mav;
+    }
+
+    /*
+    * 当日の日誌登録処理
+     */
+    @PostMapping("InsertTodayDiary")
+    public ModelAndView insertTodayDiary(ModelAndView mav, @Validated @ModelAttribute DiaryForm diaryForm, BindingResult result,
+                                         RedirectAttributes redirectAttributes,DiaryDto diaryDto,HttpSession session){
+
+        String[] msg;
+        String path = "";
+        if(result.hasErrors()){
+            redirectAttributes.addFlashAttribute("Errormsg", "適切な値を入力してください");
+            path = "redirect:/InputDiaryControl";
+        }else{
+            diaryService.insertDiary(diaryForm,(LoginInfoDto)session.getAttribute("loginInfoDto"));
+            msg = new String[]{"日誌登録完了", "日誌登録が完了しました。"};
+            path = "completeDiaryResist";
+            mav.addObject("msg",msg);
+        }
+        mav.setViewName(path);
+
+        return mav;
+    }
 }
