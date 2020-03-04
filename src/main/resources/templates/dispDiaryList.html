@@ -3,7 +3,12 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>メニュー</title>
+    <title>日誌一覧</title>
+    <link rel="stylesheet" th:href="@{/css/nowui/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/nowui/now-ui-kit.css}">
+    <script th:src="@{/js/core/jquery.min.js}"></script>
+    <script th:src="@{/js/core/bootstrap.min.js}"></script>
+    <script th:src="@{/js/core/popper.min.js}"></script>
 </head>
 <body>
 <div class="container">
@@ -12,17 +17,17 @@
         <div class="col-md-8 offset-md-2">
             <div class="text-primary" th:text="${msg}"></div>
             <div id="accordion">
-                <th:block th:each="diary, index :${diaryList}">
+                <th:block th:each="diary, stat :${diaryList}">
                     <div class="card">
-                        <div class="card-header" th:id="'heading'+${stat}">
+                        <div class="card-header" th:id="'heading'+${stat.index}">
                             <h5>
-                                <button class="btn btn-link" data-toggle="collapse" th:data-target="'#collapse'+${stat}" aria-expanded="false" th:aria-controls="'collapse'+${stat}">
-                                    作成日：<div th:text="${#dates.format(diary.insertDate, 'yyyy年MM月dd日')}"/>  　　作成者：<div th:text="${diary.studentId }"/>
+                                <button class="btn btn-link" data-toggle="collapse" th:data-target="'#collapse'+${stat.index}" aria-expanded="false" th:aria-controls="'collapse'+${stat.index}">
+                                    <div th:text="'作成日：'+ ${diary.insertDate } + '　　作成者ID：'+${diary.studentId }"/>
                                 </button>
                             </h5>
                         </div>
 
-                        <div th:id="'collapse'+${stat}" class="collapse" th:aria-labelledby="'heading'+${stat}" data-parent="#accordion">
+                        <div th:id="'collapse'+${stat.index}" class="collapse" th:aria-labelledby="'heading'+${stat.index}" data-parent="#accordion">
                             <div class="card-body py-0">
                                 <table class="table">
                                     <thead>
@@ -39,7 +44,7 @@
                         </div>
                     </div>
             </th:block>
-            <a href="Menu" class="col-md-12  btn btn-lg btn-neutral border border-danger text-center float-left">戻る</a>
+            <a href="Menu" class="col-md-12  btn btn-lg text-primary btn-outline-success text-center float-left">戻る</a>
         </div>
     </div>
 </div>

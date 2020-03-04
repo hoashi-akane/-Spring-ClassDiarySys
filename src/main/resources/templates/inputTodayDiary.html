@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>日誌登録</title>
-    <link rel="stylesheet" href="../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
-    <script src="//code.jquery.com/jquery-1.12.1.min.js"></script>
-    <link rel="javascript" href="../static/js/bootstrap.bundle.js" th:href="@{/js/bootstrap.bundle.js}">
+    <link rel="stylesheet" href="../static/css/bootstrap.css" th:href="@{/css/nowui/bootstrap.min.css}">
+    <link rel="stylesheet" href="../static/css/bootstrap.css" th:href="@{/css/nowui/now-ui-kit.css}">
+    <script th:src="@{/js/core/jquery.min.js}"></script>
+    <script th:src="@{/js/core/bootstrap.min.js}"></script>
+    <script th:src="@{/js/core/popper.min.js}"></script>
 </head>
 
 <body>
@@ -38,7 +40,7 @@
             </div>
             <div class="col-md-12 p-0">
                 <a href="Menu" class="m-0 col-md-6  btn btn-lg btn-neutral border border-danger text-center float-left">戻る</a>
-                <button type="button" class="m-0 col-md-6 btn btn-lg btn-neutral border border-danger text-center float-right" data-toggle="modal" data-target="#myModal">登録</button>
+                <button type="button" class="m-0 col-md-6 btn btn-lg btn-outline-primary text-center float-right" data-toggle="modal" data-target="#myModal">登録</button>
             </div>
             <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
@@ -54,7 +56,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary px-4" data-dismiss="modal">戻る</button>
-                            <button type="submit" class="btn btn-primary float-right px-4">登録</button>
+                            <button type="submit" class="btn text-primary btn-outline-success float-right px-4">登録</button>
                         </div><!-- /.modal-footer -->
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
