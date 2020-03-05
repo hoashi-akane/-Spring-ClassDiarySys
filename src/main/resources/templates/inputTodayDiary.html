@@ -22,21 +22,21 @@
             <div class="form-group">
                 <div class="text text-danger"></div>
                 <p class="m-0" id="Holiday">登録日  <div th:text="${#dates.format(date, 'yyyy年MM月dd日')}"></div></p>
-                <label for="Holiday"><a href="CanInputResistListServlet">過去の日誌を登録したい方はこちら</a></label>
+                <label for="Holiday"><a href="InputOldDiary">過去の日誌を登録したい方はこちら</a></label>
             </div>
             <div class="form-group">
                 <div class="text text-danger"></div>
                 <label for="good">良かったこと</label>
-                <textarea class="form-control" th:field="${diaryForm.goodPoint}" id="good"></textarea>
+                <textarea class="form-control" th:field="*{goodPoint}" id="good"></textarea>
             </div>
             <div class="form-group">
                 <label for="bad">気になったこと</label>
-                <textarea class="form-control" th:field="${diaryForm.badPoint}" id="bad"></textarea>
+                <textarea class="form-control" th:field="*{badPoint}" id="bad"></textarea>
             </div>
 
             <div class="form-group">
                 <label for="com">一言</label>
-                <textarea class="form-control" th:field="${diaryForm.stdCom}" id="com"></textarea>
+                <textarea class="form-control" th:field="*{stdCom}" id="com"></textarea>
             </div>
             <div class="col-md-12 p-0">
                 <a href="Menu" class="m-0 col-md-6  btn btn-lg btn-neutral border border-danger text-center float-left">戻る</a>

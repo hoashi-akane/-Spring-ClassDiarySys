@@ -90,7 +90,14 @@ $(document).ready(function() {
       templates: {
         leftArrow: '<i class="now-ui-icons arrows-1_minimal-left"></i>',
         rightArrow: '<i class="now-ui-icons arrows-1_minimal-right"></i>'
-      }
+      },
+      autoclose: true,
+      language: 'ja',
+      format: 'yyyy-mm-dd',
+      startDate: olddiaryday,
+      endDate: new Date(),
+      datesDisabled: diaryDayList,
+
     }).on('show', function() {
       $('.datepicker').addClass('open');
 
