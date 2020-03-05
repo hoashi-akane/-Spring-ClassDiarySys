@@ -1,5 +1,6 @@
 package com.madder.diary1801182.Controller;
 
+import com.madder.diary1801182.Dto.DateOnlyDiaryDto;
 import com.madder.diary1801182.Dto.DiaryDto;
 import com.madder.diary1801182.Dto.LoginInfoDto;
 import com.madder.diary1801182.Form.DiaryForm;
@@ -83,7 +84,7 @@ public class DiaryController {
     }
 
     /*
-    * 当日の日誌登録処理
+    * 当日及び過去の日誌登録処理
      */
     @PostMapping("InsertTodayDiary")
     public ModelAndView insertTodayDiary(ModelAndView mav, @Validated @ModelAttribute DiaryForm diaryForm, BindingResult result,
@@ -101,6 +102,23 @@ public class DiaryController {
             mav.addObject("msg",msg);
         }
         mav.setViewName(path);
+
+        return mav;
+    }
+
+    /*
+    * 当日ではない日誌の登録
+    * （記入可能な日誌一覧表示）DatePickerで日付選択、jsで追加可能化確認
+    * */
+    @GetMapping("InputOldDiary")
+    public ModelAndView inputOldDiary(ModelAndView mav, HttpSession session, DateOnlyDiaryDto dateOnlyDiaryDto, DiaryForm diaryForm){
+
+        String classCode = ((LoginInfoDto)session.getAttribute("loginInfoDto")).getClassCode();
+        dateOnlyDiaryDto = diaryService.dateOnlyDiaryList(classCode);
+
+        mav.addObject("diaryForm", diaryForm);
+        mav.addObject("dateOnlyDiaryDto",dateOnlyDiaryDto);
+        mav.setViewName("inputOldDiary");
 
         return mav;
     }

@@ -1,5 +1,6 @@
 package com.madder.diary1801182.Service;
 
+import com.madder.diary1801182.Dto.DateOnlyDiaryDto;
 import com.madder.diary1801182.Dto.DiaryDto;
 import com.madder.diary1801182.Dto.LoginInfoDto;
 import com.madder.diary1801182.Entity.Diary;
@@ -72,16 +73,41 @@ public class DiaryService {
     }
 
     /*
+    * 記入積み日誌の日付一覧を取得する
+    * */
+    public DateOnlyDiaryDto dateOnlyDiaryList(String classCode){
+
+        DateOnlyDiaryDto dateOnlyDaiaryDto = new DateOnlyDiaryDto();
+        List<String> dateList = new ArrayList<String>();
+
+        List<Date> dateDiaryList = diaryRepository.getDateDiaryList(classCode);
+        for(Date dateDiary : dateDiaryList){
+
+            String strDateDiary = dateToString(dateDiary);
+            dateList.add(strDateDiary);
+        }
+        dateOnlyDaiaryDto.setInsertDate(dateList);
+
+        return dateOnlyDaiaryDto;
+    }
+
+    /*
     *  日誌登録サービス(１件)
     * */
     public Boolean insertDiary(DiaryForm diaryForm,LoginInfoDto loginInfoDto){
 
-                Date date = new Date();
-                String strDate = dateToString(date);
-                DiaryDto diaryDto = formToDto(diaryForm, loginInfoDto, strDate);
-                Diary entity = dtoToEntity(diaryDto);
-                Diary diary = diaryRepository.save(entity);
-                return true;
+        String strDate = null;
+        if(diaryForm.getInsertDate() == null) {
+            Date date = new Date();
+            strDate = dateToString(date);
+        }else{
+            strDate = diaryForm.getInsertDate();
+        }
+
+        DiaryDto diaryDto = formToDto(diaryForm, loginInfoDto, strDate);
+        Diary entity = dtoToEntity(diaryDto);
+        Diary diary = diaryRepository.save(entity);
+        return true;
     }
 
     // dto -> entity

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>日誌登録</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.css" th:href="@{/css/nowui/bootstrap.min.css}">
+    <link rel="stylesheet" href="../static/css/bootstrap.css" th:href="@{/css/nowui/now-ui-kit.css}">
+    <script th:src="@{/js/core/jquery.min.js}"></script>
+    <script th:src="@{/js/core/bootstrap.min.js}"></script>
+    <script th:src="@{/js/core/popper.min.js}"></script>
+    <script th:src="@{/js/plugins/bootstrap-datepicker.js}"></script>
+    <script th:src="@{/js/now-ui-kit.js}"></script>
+</head>
+<body>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var diaryDayList = /*[[${dateOnlyDiaryDto.insertDate}]]*/;
+    /*]]>*/
+    var olddiaryday = new Date();
+    olddiaryday.setDate( olddiaryday.getDate() - 30);
+
+    $('#day').datepicker()
+        .on('changeDate', function(e){
+        alert("change");
+        $.each(diaryDayList, function(value){
+            alert(value);
+        })
+    });
+</script>
+<header>
+
+</header>
+<div class="container">
+    <div class="row mt-5">
+        <h2 class="col-md-10 mb-4 text text-secondary" id="inputDiary">日誌登録</h2>
+
+        <form th:object="${diaryForm}" action="InsertTodayDiary" method="POST" class="col-md-8 offset-md-2 mx-auto text text-secondary">
+            <div class="form-group">
+                <div class="text text-danger"></div>
+                <label for="day">登録日</label>
+                <input id="day" type="text" class="form-control date-picker" th:field="*{insertDate}" data-datepicker-color="primary">
+            </div>
+            <div class="form-group">
+                <div class="text text-danger"></div>
+                <label for="good">良かったこと</label>
+                <textarea class="form-control" th:field="*{goodPoint}" id="good"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="bad">気になったこと</label>
+                <textarea class="form-control" th:field="*{badPoint}" id="bad"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="com">一言</label>
+                <textarea class="form-control" th:field="*{stdCom}" id="com"></textarea>
+            </div>
+            <div class="col-md-12 p-0">
+                <a href="Menu" class="m-0 col-md-6  btn btn-lg btn-neutral border border-danger text-center float-left">戻る</a>
+                <button type="button" class="m-0 col-md-6 btn btn-lg btn-outline-primary text-center float-right" data-toggle="modal" data-target="#myModal">登録</button>
+            </div>
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title text text-danger" id="exampleModalLabel">日誌登録</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="閉じる">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p class="text-center">入力された情報で登録してもよろしいですか？</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary px-4" data-dismiss="modal">戻る</button>
+                            <button type="submit" class="btn text-primary btn-outline-success float-right px-4">登録</button>
+                        </div><!-- /.modal-footer -->
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        </form>
+    </div>
+</div>
+<footer>
+</footer>
+</body>
+</html>
