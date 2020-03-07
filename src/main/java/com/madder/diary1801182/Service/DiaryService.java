@@ -55,6 +55,38 @@ public class DiaryService {
     }
 
     /*
+     * 修正用日誌一覧取得サービス
+     * */
+    public DiaryDto getRevisionDiaryList(String[] insertDates, String classCode){
+
+        List<DiaryDto> diaryDtoList = new ArrayList<DiaryDto>();
+
+        for(String insertDate : insertDates) {
+
+            Diary diary = diaryRepository.getRevisionDiaryList(java.sql.Date.valueOf(insertDate), classCode);
+
+            // Entity -> Dto
+            String strDate = dateToString(diary.getInsertDate());
+            DiaryDto diaryDto = DiaryDto.builder()
+                    .classCode(diary.getClassCode())
+                    .studentId(diary.getStudentId())
+                    .insertDate(strDate)
+                    .goodPoint(diary.getGoodPoint())
+                    .badPoint(diary.getBadPoint())
+                    .stdCom(diary.getStudentComment())
+                    .tcrCom(diary.getTeacherComment())
+                    .build();
+
+            diaryDtoList.add(diaryDto);
+        }
+        DiaryDto diaryDto = DiaryDto.builder()
+                .diaryDtoList(diaryDtoList)
+                .build();
+
+        return diaryDto;
+    }
+
+    /*
     * 日誌確認サービス(return boolean)
     * */
     public Boolean checkDiary(String classCode){
@@ -107,6 +139,19 @@ public class DiaryService {
         DiaryDto diaryDto = formToDto(diaryForm, loginInfoDto, strDate);
         Diary entity = dtoToEntity(diaryDto);
         Diary diary = diaryRepository.save(entity);
+        return true;
+    }
+
+    /*
+    * 日誌修正サービス（複数件)
+    * */
+    public Boolean revisionDiary(DiaryDto diaryDto, String classCode){
+
+        List<DiaryDto> diaryList = diaryDto.getDiaryDtoList();
+        for(DiaryDto diary : diaryList){
+            diary.setClassCode(classCode);
+            diaryRepository.update(diary.getGoodPoint(), diary.getBadPoint(), diary.getStdCom(), java.sql.Date.valueOf(diary.getInsertDate()), diary.getClassCode());
+        }
         return true;
     }
 

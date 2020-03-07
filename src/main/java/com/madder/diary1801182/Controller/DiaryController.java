@@ -143,9 +143,44 @@ public class DiaryController {
 
         }else {
             redirectAttributes.addFlashAttribute("errorMsg", "削除に失敗しました。");
-            path = "redirect:/DispDiaryList";
+            path = "redirect:/dispDiaryList";
         }
 
+        return path;
+    }
+
+    /*
+    * 過去の日誌修正画面へ
+    * */
+    @PostMapping("RevisionDiary")
+    public ModelAndView revisionDiary(@RequestParam("check") String[] insertDates, ModelAndView mav, HttpSession session){
+
+        String path ="";
+        String classCode = ((LoginInfoDto)session.getAttribute("loginInfoDto")).getClassCode();
+        DiaryDto diaryList = diaryService.getRevisionDiaryList(insertDates, classCode);
+        mav.addObject("diaryList", diaryList);
+        mav.setViewName("revisionDiaryList");
+
+        return mav;
+    }
+
+    /*
+    * 過去の日誌修正処理
+    * */
+    @PostMapping("InputRevisionDiary")
+    public String inputRevisionDiary(@ModelAttribute("diaryList") DiaryDto diaryDto, Model model, RedirectAttributes redirectAttributes, HttpSession session){
+
+        String path="";
+        String[] msg;
+        String classCode = ((LoginInfoDto)session.getAttribute("loginInfoDto")).getClassCode();
+        if(diaryService.revisionDiary(diaryDto, classCode)){
+            msg = new String[]{"日誌修正完了", "日誌修正が完了しました。"};
+            path = "completeDiaryResist";
+            model.addAttribute("msg", msg);
+        }else{
+            redirectAttributes.addFlashAttribute("errorMsg", "修正に失敗しました。");
+            path = "redirect:/dispDiaryList";
+        }
         return path;
     }
 }

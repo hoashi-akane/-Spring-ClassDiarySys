@@ -9,11 +9,13 @@ import lombok.experimental.Tolerate;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Builder
-
 public class DiaryDto implements Serializable {
+
+    private List<DiaryDto> diaryDtoList;
 
     @NotNull
     private String insertDate;
