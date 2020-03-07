@@ -15,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -92,6 +93,7 @@ public class DiaryController {
 
         String[] msg;
         String path = "";
+//        validateチェック
         if(result.hasErrors()){
             redirectAttributes.addFlashAttribute("Errormsg", "適切な値を入力してください");
             path = "redirect:/InputDiaryControl";
@@ -121,5 +123,29 @@ public class DiaryController {
         mav.setViewName("inputOldDiary");
 
         return mav;
+    }
+
+    /*
+    * 過去の日誌削除
+    * */
+    @PostMapping("DelDiary")
+    public String delDiary(@RequestParam("check") String[] insertDates, Model model, HttpSession session, RedirectAttributes redirectAttributes){
+
+        String path = "";
+        String[] msg;
+        String classCode = ((LoginInfoDto)session.getAttribute("loginInfoDto")).getClassCode();
+
+        // 登録完了true 失敗false
+        if(diaryService.delDiary(insertDates, classCode)){
+            msg = new String[]{"日誌削除完了", "日誌削除が完了しました。"};
+            path = "completeDiaryResist";
+            model.addAttribute("msg", msg);
+
+        }else {
+            redirectAttributes.addFlashAttribute("errorMsg", "削除に失敗しました。");
+            path = "redirect:/DispDiaryList";
+        }
+
+        return path;
     }
 }

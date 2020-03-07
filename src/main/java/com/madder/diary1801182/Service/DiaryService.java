@@ -110,6 +110,22 @@ public class DiaryService {
         return true;
     }
 
+    /*
+    * 日誌削除
+    * */
+    public Boolean delDiary(String[] insertDates, String classCode){
+
+        boolean check = true;
+        try {
+            for (String insertDate : insertDates) {
+                diaryRepository.deleteDiary(java.sql.Date.valueOf(insertDate), classCode);
+            }
+        }catch(Exception e) {
+            check = false;
+        }
+        return check;
+    }
+
     // dto -> entity
     private Diary dtoToEntity(DiaryDto diaryDto){
 
