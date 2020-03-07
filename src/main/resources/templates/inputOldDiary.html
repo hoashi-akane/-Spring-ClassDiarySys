@@ -14,9 +14,11 @@
 </head>
 <body>
 <script th:inline="javascript">
+    // 登録できない日付
     /*<![CDATA[*/
     var diaryDayList = /*[[${dateOnlyDiaryDto.insertDate}]]*/;
     /*]]>*/
+
     var olddiaryday = new Date();
     olddiaryday.setDate( olddiaryday.getDate() - 30);
 
@@ -37,7 +39,7 @@
 
         <form th:object="${diaryForm}" action="InsertTodayDiary" method="POST" class="col-md-8 offset-md-2 mx-auto text text-secondary">
             <div class="form-group">
-                <div class="text text-danger"></div>
+                <div class="text text-danger">（当日以降・過去３０日以降・すでに登録されている）これらの日付は選択しても反応しません！！</div>
                 <label for="day">登録日</label>
                 <input id="day" type="text" class="form-control date-picker" th:field="*{insertDate}" data-datepicker-color="primary">
             </div>

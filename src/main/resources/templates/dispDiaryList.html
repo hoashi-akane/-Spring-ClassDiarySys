@@ -9,13 +9,41 @@
     <script th:src="@{/js/core/jquery.min.js}"></script>
     <script th:src="@{/js/core/bootstrap.min.js}"></script>
     <script th:src="@{/js/core/popper.min.js}"></script>
+<!--    ソート用js、css-->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.0/js/jquery.tablesorter.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.table').tablesorter({
+                headers: {
+                    2: {sorter: false},
+                    3: {sorter: false},
+                    4: {sorter: false},
+                    5: {sorter: false},
+                    6: {sorter: false}
+                }
+            });
+        });
+    </script>
+    <style>
+        .table .tablesorter-header {
+            cursor: pointer;
+            outline: none;
+        }
+        .table .onsort .tablesorter-header-inner::after {
+            content: '▼';
+            font-size: 12px;
+            margin-left: 5px;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
     <div class="row mt-5">
         <h2 class="col-md-10 mb-4 text text-secondary">日誌一覧</h2>
-        <div class="col-md-8 offset-md-2">
+        <div class="col-md-10 offset-md-1 mt-4">
+            <div class="text-danger" th:text="${errorMsg}"></div>
             <div class="text-primary" th:text="${msg}"></div>
+<!--　Old Pattern
             <div id="accordion">
                 <th:block th:each="diary, stat :${diaryList}">
                     <div class="card">
@@ -46,8 +74,50 @@
             </th:block>
             <a href="Menu" class="col-md-12  btn btn-lg text-primary btn-outline-success text-center float-left">戻る</a>
         </div>
+-->
+            <form action="RevisionDiary" method="POST">
+            <div class="text-right">
+                <button class="submit btn btn-primary" data-action="RevisionDiary">修正する</button>
+                <button class="submit btn btn-danger" data-action="DelDiary">削除する</button>
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th class="text-center onsort">日付</th>
+                    <th class="onsort">学籍番号</th>
+                    <th>良い点</th>
+                    <th>悪い点</th>
+                    <th>学生コメント</th>
+                    <th>担任コメント</th>
+                    <th>削除・修正</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <th:block th:each="diary, stat :${diaryList}">
+                        <tr>
+                            <td th:text="${diary.insertDate}"></td>
+                            <td th:text="${diary.studentId}"></td>
+                            <td th:text="${diary.goodPoint}"></td>
+                            <td th:text="${diary.badPoint}"></td>
+                            <td th:text="${diary.stdCom}"></td>
+                            <td th:text="${diary.tcrCom}"></td>
+                            <td><input type="checkbox" name="check" th:value="${diary.insertDate}"></td>
+                        </tr>
+                    </th:block>
+                </tbody>
+            </table>
+            </form>
+        </div>
+        <div class="col-md-8 offset-md-2">
+            <a href="Menu" class="col-md-12  btn btn-lg text-primary btn-outline-success text-center">戻る</a>
+        </div>
     </div>
 </div>
-
 </body>
+<script>
+    $('.submit').click(function(){
+        $(this).parents('form').attr('action', $(this).data('action'));
+        $(this).parents('form').submit();
+    });
+</script>
 </html>
