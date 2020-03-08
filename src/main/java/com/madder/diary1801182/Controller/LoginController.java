@@ -22,7 +22,9 @@ public class LoginController {
     @Autowired
     LoginService loginService;
 
-
+    /*
+    *ログイン画面表示用コントローラ
+    *  */
     @GetMapping("Login")
     public String index(Model model,LoginForm loginForm,@ModelAttribute("ErrorMsg") String errorMsg){
         model.addAttribute("loginForm",loginForm);
@@ -30,6 +32,9 @@ public class LoginController {
         return "login";
     }
 
+    /*
+    * ログイン認証コントローラ
+    * */
     @PostMapping("Auth")
     public String auth(@Validated @ModelAttribute LoginForm loginForm, BindingResult result, RedirectAttributes redirectAttributes,LoginInfoDto loginInfoDto,HttpSession session){
 

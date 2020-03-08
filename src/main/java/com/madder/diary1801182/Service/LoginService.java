@@ -8,19 +8,21 @@ import com.madder.diary1801182.Form.LoginForm;
 import com.madder.diary1801182.Repository.ClassRepository;
 import com.madder.diary1801182.Repository.CourseRepository;
 import com.madder.diary1801182.Repository.StudentRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+@RequiredArgsConstructor
 @Service
 public class LoginService {
 
-    @Autowired
-    StudentRepository studentRepository;
-    @Autowired
-    ClassRepository classRepository;
-    @Autowired
-    CourseRepository courseRepository;
+
+    private final StudentRepository studentRepository;
+
+    private final ClassRepository classRepository;
+
+    private final CourseRepository courseRepository;
 
 
     public LoginInfoDto authentication(LoginForm loginForm){

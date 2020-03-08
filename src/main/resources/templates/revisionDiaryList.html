@@ -18,10 +18,7 @@
             <div class="text-danger" th:text="${errorMsg}"></div>
             <div class="text-primary" th:text="${msg}"></div>
             <form th:object="${diaryList}" action="InputRevisionDiary" method="POST">
-                <div class="text-right">
-                    <button class="submit btn btn-primary" data-action="RevisionDiary">修正する</button>
-                    <button class="submit btn btn-danger" data-action="DelDiary">削除する</button>
-                </div>
+
                 <table class="table">
 
                     <thead>
@@ -52,12 +49,12 @@
                     </tbody>
 
                 </table>
-                <button type="submit">送信</button>
+                <div class="col-md-12 p-0">
+                    <a href="Menu" class="m-0 col-md-6  btn btn-lg text-primary btn-outline-success text-center float-left">戻る</a>
+                    <button type="submit" class="m-0 col-md-6 btn btn-lg text-primary btn-outline-success text-center float-right">登録</button>
+                </div>
             </form>
 
-        </div>
-        <div class="col-md-8 offset-md-2">
-            <a href="Menu" class="col-md-12  btn btn-lg text-primary btn-outline-success text-center">戻る</a>
         </div>
     </div>
 </div>
