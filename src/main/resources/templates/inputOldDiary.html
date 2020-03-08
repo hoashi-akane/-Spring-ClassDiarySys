@@ -30,16 +30,14 @@
         })
     });
 </script>
-<header>
-
-</header>
+<div th:include="/headers.html"></div>
 <div class="container">
     <div class="row mt-5">
         <h2 class="col-md-10 mb-4 text text-secondary" id="inputDiary">日誌登録</h2>
 
         <form th:object="${diaryForm}" action="InsertTodayDiary" method="POST" class="col-md-8 offset-md-2 mx-auto text text-secondary">
             <div class="form-group">
-                <div class="text text-danger">（当日以降・過去３０日以降・すでに登録されている）これらの日付は選択しても反応しません！！</div>
+                <div class="text text-danger">（当日以降・過去３０日以前・すでに登録されている）これらの日付は選択しても反応しません！！</div>
                 <label for="day">登録日</label>
                 <input id="day" type="text" class="form-control date-picker" th:field="*{insertDate}" data-datepicker-color="primary">
             </div>
