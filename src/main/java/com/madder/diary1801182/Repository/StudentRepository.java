@@ -15,4 +15,7 @@ public interface StudentRepository extends JpaRepository<Student, String>, JpaSp
 
     @Query("FROM Student WHERE studentId = :studentId AND studentPassword = :studentPassword")
     Student getUserInfo(@Param("studentId") String studentId, @Param("studentPassword") String studentPassword);
+
+    @Query("SELECT studentPassword FROM Student WHERE studentId = :studentId")
+    String getUserPass(@Param("studentId") String studentId);
 }

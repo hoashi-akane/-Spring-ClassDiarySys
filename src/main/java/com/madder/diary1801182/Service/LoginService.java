@@ -11,6 +11,8 @@ import com.madder.diary1801182.Repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -29,15 +31,28 @@ public class LoginService {
 
         LoginInfoDto loginInfoDto = null;
 
-        //ログイン情報取得前にアカウントが正しいかの確認を行う
-        if(studentRepository.accountExists(loginForm.getUserId(),loginForm.getPassword())){
-        //認証成功後、ログイン情報を取得
-            loginInfoDto = new LoginInfoDto();
-            loginInfoDto = getUserInfo(loginForm, loginInfoDto);
-        }else{
+//        Bcrypt使用
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = studentRepository.getUserPass(loginForm.getUserId());
 
+        if(passwordEncoder.matches(loginForm.getPassword(), encodedPassword)){
+            //認証成功後、ログイン情報を取得
+            loginInfoDto = new LoginInfoDto();
+//            formの値書き換え
+            loginForm.setPassword(encodedPassword);
+            loginInfoDto = getUserInfo(loginForm, loginInfoDto);
         }
         return loginInfoDto;
+
+//        //ログイン情報取得前にアカウントが正しいかの確認を行う (Old認証方式)
+//        if(studentRepository.accountExists(loginForm.getUserId(),loginForm.getPassword())){
+//        //認証成功後、ログイン情報を取得
+//            loginInfoDto = new LoginInfoDto();
+//            loginInfoDto = getUserInfo(loginForm, loginInfoDto);
+//        }else{
+//
+//        }
+//        return loginInfoDto;
     }
 
 
