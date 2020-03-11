@@ -6,8 +6,8 @@ version: 2
 jobs:
   build:
     docker:
-      # specify the version you desire here
-      - image: circleci/openjdk:8-jdk
+      # specify the version jdkyou desire here
+      - image: mcr.microsoft.com/java/jdk:11-zulu-ubuntu
 
       # Specify service dependencies here if necessarycom
       # CircleCI maintains a library of pre-built images
