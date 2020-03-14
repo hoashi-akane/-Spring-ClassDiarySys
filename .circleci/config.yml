@@ -40,3 +40,51 @@ jobs:
 
       # run tests!
       - run: gradle test
+     
+  deploy:
+    docker:
+      - image: circleci/openjdk:11-jdk
+    working_directory: ~/repo
+    environment:
+      BUILD_APP: build/libs/diary1801182*.jar # 成果物
+      HOST_NAME: www.mad-der.com # デプロイ先のホスト名
+      USER_NAME: root  # デプロイ先のユーザー名
+      APP_DIR: /usr/local/compose-spring/spring/ #デプロイ先のディレクトリ
+      APP_NAME: sample-appd
+      DOCKER_HOST: ssh://root@www.mad-der.com
+    steps:
+      - setup_remote_docker
+      # 共有したworkspaceをアタッチする
+      - attach_workspace:
+          at: ~/repo
+      # 設定した秘密鍵のFingerPrintを追記する
+      - add_ssh_keys:
+          fingerprints:
+            - "95:34:f6:35:1f:ce:c7:1c:5c:7c:9e:0d:ca:4b:17:6e"
+      - run : sudo apt install -y rsync
+      - run : ssh-keyscan ${HOST_NAME} >> ~/.ssh/known_hosts
+      - run : gradle build #ビルドを実行して成果物を作成する
+      - deploy:
+          name: masterをdeploy
+          command: |
+            export ${DOCKER_HOST}
+            docker stop spring
+            rsync -vc ${BUILD_APP} ${USER_NAME}@${HOST_NAME}:${APP_DIR} # 成果物をデプロイする
+            docker build spring
+            docker start spring
+workflows:
+  version: 2
+  build_test_deploy: # workflow名
+    jobs:
+      - build
+      - test: 
+          requires: # buildが成功したら
+            - build
+      - deploy: 
+          requires: # buildとtestが成功したら
+            - build
+            - test
+          filters: 
+            branches: # masterブランチのみ実行する
+              only: 
+                - master
