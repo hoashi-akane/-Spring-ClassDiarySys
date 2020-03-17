@@ -18,7 +18,7 @@ jobs:
 
     environment:
       # Customize the JVM maximum heap limit
-      JVM_OPTS: -Xmx3200m
+      JVM_OPTS: -Xmx3200mgtx20
       TERM: dumb
 
     steps:
@@ -64,8 +64,12 @@ jobs:
       - run : sudo apt install -y rsync
       - run : ssh-keyscan ${HOST_NAME} >> ~/.ssh/known_hosts
       - run : gradle build #ビルドを実行して成果物を作成する
-      - run : export ${DOCKER_HOST}
-      - run : docker stop spring
+      - run : ssh ${USER_NAME}@${HOST_NAME}
+      - run : 
+          name: 移動
+          command: |
+            cd ${APP_DIR}
+            docker stop spring
       - deploy: 
           name: masterをdeploy
           command: |
