@@ -38,9 +38,9 @@
                         <tr>
                             <td th:text="${diary.insertDate}"></td>
                             <td th:text="${diary.studentId}"></td>
-                            <td><textarea th:field="*{diaryDtoList[__${stat.index}__].goodPoint}">[[${diary.goodPoint}]]</textarea></td>
-                            <td><textarea th:field="*{diaryDtoList[__${stat.index}__].badPoint}">[[${diary.badPoint}]]</textarea></td>
-                            <td><textarea th:field="*{diaryDtoList[__${stat.index}__].stdCom}">[[${diary.stdCom}]]</textarea></td>
+                            <td><textarea class="form-control border rounded p-0" th:field="*{diaryDtoList[__${stat.index}__].goodPoint}">[[${diary.goodPoint}]]</textarea></td>
+                            <td><textarea class="form-control border rounded p-0" th:field="*{diaryDtoList[__${stat.index}__].badPoint}">[[${diary.badPoint}]]</textarea></td>
+                            <td><textarea class="form-control border rounded p-0" th:field="*{diaryDtoList[__${stat.index}__].stdCom}">[[${diary.stdCom}]]</textarea></td>
                             <td th:text="${diary.tcrCom}"></td>
                         </tr>
                         <input type="hidden" th:field="*{diaryDtoList[__${stat.index}__].studentId}" th:value="${diary.studentId}">
