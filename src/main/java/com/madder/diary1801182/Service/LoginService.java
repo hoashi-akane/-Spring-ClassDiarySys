@@ -37,10 +37,9 @@ public class LoginService {
 
         if(passwordEncoder.matches(loginForm.getPassword(), encodedPassword)){
             //認証成功後、ログイン情報を取得
-            loginInfoDto = new LoginInfoDto();
 //            formの値書き換え
             loginForm.setPassword(encodedPassword);
-            loginInfoDto = getUserInfo(loginForm, loginInfoDto);
+            loginInfoDto = getUserInfo(loginForm);
         }
         return loginInfoDto;
 
@@ -56,19 +55,21 @@ public class LoginService {
     }
 
 
-    public LoginInfoDto getUserInfo(LoginForm loginForm,LoginInfoDto loginInfoDto){
+    public LoginInfoDto getUserInfo(LoginForm loginForm){
 
         Student student = studentRepository.getUserInfo(loginForm.getUserId(),loginForm.getPassword());
         Class myClass = classRepository.getUserClass(student.getClassCode());
         Course course = courseRepository.getOne(myClass.getCourseCode());
 
         // Entity to Dto
-        loginInfoDto.setUserId(student.getStudentId());
-        loginInfoDto.setClassCode(student.getClassCode());
-        loginInfoDto.setUserName(student.getStudentName());
-        loginInfoDto.setClassName(myClass.getClassName());
-        loginInfoDto.setCourseCode(myClass.getCourseCode());
-        loginInfoDto.setCourseName(course.getCourseName());
+        LoginInfoDto loginInfoDto = LoginInfoDto.builder()
+                .userId(student.getStudentId())
+                .userName(student.getStudentName())
+                .classCode(student.getClassCode())
+                .className(myClass.getClassName())
+                .courseCode(myClass.getCourseCode())
+                .courseName(course.getCourseName())
+                .build();
 
         return loginInfoDto;
     }
